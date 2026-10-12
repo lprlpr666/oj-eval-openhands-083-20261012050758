@@ -8,11 +8,23 @@ struct Node {
 
 int main() {
     int n, m;
-    scanf("%d %d", &n, &m);
+    int i;
+    struct Node* nodes;
+    struct Node* current;
+    struct Node* prev;
+    int remaining;
+    int count;
     
-    // Create circular linked list
-    struct Node* nodes = (struct Node*)malloc(n * sizeof(struct Node));
-    for (int i = 0; i < n; i++) {
+    if (scanf("%d %d", &n, &m) != 2) {
+        return 1;
+    }
+    
+    nodes = (struct Node*)malloc(n * sizeof(struct Node));
+    if (nodes == NULL) {
+        return 1;
+    }
+    
+    for (i = 0; i < n; i++) {
         nodes[i].data = i + 1;
         if (i == n - 1) {
             nodes[i].next = &nodes[0];
@@ -21,25 +33,22 @@ int main() {
         }
     }
     
-    struct Node* current = &nodes[0];
-    struct Node* prev = &nodes[n - 1];
+    current = &nodes[0];
+    prev = &nodes[n - 1];
+    remaining = n;
     
-    int remaining = n;
     while (remaining > 1) {
-        // Move (m-1) steps
-        for (int i = 1; i < m; i++) {
+        for (count = 1; count < m; count++) {
             prev = current;
             current = current->next;
         }
         
-        // Remove current node
         printf("%d\n", current->data);
         prev->next = current->next;
         current = current->next;
         remaining--;
     }
     
-    // Print last remaining
     printf("%d\n", current->data);
     
     free(nodes);
