@@ -1,12 +1,5 @@
-CC = gcc
-CFLAGS = -std=c99 -Wall -Wextra -O2
-TARGET = code
-SOURCE = main.c
-
-all: $(TARGET)
-
-$(TARGET): $(SOURCE)
-	$(CC) $(CFLAGS) -o $(TARGET) $(SOURCE)
+all:
+	gcc -o code main.c
 
 clean:
-	rm -f $(TARGET)
+	rm -f code
