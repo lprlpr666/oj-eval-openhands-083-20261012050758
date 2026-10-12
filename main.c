@@ -1,25 +1,24 @@
-#include <iostream>
-
-using namespace std;
+#include <stdio.h>
+#include <stdlib.h>
 
 // Node structure for singly circular linked list
 struct Node {
     int data;
-    Node* next;
+    struct Node* next;
 };
 
-Node* createNode(int val) {
-    Node* newNode = new Node;
+struct Node* createNode(int val) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     newNode->data = val;
-    newNode->next = nullptr;
+    newNode->next = NULL;
     return newNode;
 }
 
-Node* buildCircularList(int n) {
-    if (n <= 0) return nullptr;
+struct Node* buildCircularList(int n) {
+    if (n <= 0) return NULL;
     
-    Node* head = createNode(1);
-    Node* current = head;
+    struct Node* head = createNode(1);
+    struct Node* current = head;
     
     for (int i = 2; i <= n; i++) {
         current->next = createNode(i);
@@ -31,11 +30,11 @@ Node* buildCircularList(int n) {
     return head;
 }
 
-void josephusSimulation(Node* head, int n, int m) {
-    if (head == nullptr || n == 0) return;
+void josephusSimulation(struct Node* head, int n, int m) {
+    if (head == NULL || n == 0) return;
     
-    Node* current = head;
-    Node* prev = nullptr;
+    struct Node* current = head;
+    struct Node* prev = NULL;
     
     // Find the node before head (last node)
     prev = head;
@@ -52,28 +51,30 @@ void josephusSimulation(Node* head, int n, int m) {
         }
         
         // Remove current node
-        cout << current->data << endl;
+        printf("%d\n", current->data);
         prev->next = current->next;
         
-        Node* toDelete = current;
+        struct Node* toDelete = current;
         current = current->next;
         
-        delete toDelete;
+        free(toDelete);
         remaining--;
     }
     
     // Output the last remaining node
-    if (current != nullptr) {
-        cout << current->data << endl;
-        delete current;
+    if (current != NULL) {
+        printf("%d\n", current->data);
+        free(current);
     }
 }
 
 int main() {
     int n, m;
-    cin >> n >> m;
+    if (scanf("%d %d", &n, &m) != 2) {
+        return 1;
+    }
     
-    Node* head = buildCircularList(n);
+    struct Node* head = buildCircularList(n);
     josephusSimulation(head, n, m);
     
     return 0;
